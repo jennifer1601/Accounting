@@ -15,33 +15,16 @@ public class getCustomer {
         return custCode;
     }
 
-    public void setCustCode(String custCode) {
-        this.custCode = custCode;
-    }
-
     public String getCustName() {
         return custName;
-    }
-
-    public void setCustName(String custName) {
-        this.custName = custName;
     }
 
     public String getCustContact() {
         return custContact;
     }
 
-    public void setCustContact(String custContact) {
-        this.custContact = custContact;
-    }
-
     public String getCustAddress() {
         return custAddress;
     }
-
-    public void setCustAddress(String custAddress) {
-        this.custAddress = custAddress;
-    }
-    
     
 }

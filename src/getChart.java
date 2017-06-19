@@ -9,21 +9,22 @@
  * @author User
  */
 public class getChart {
-    private int chartNo;
+    private String chartNo;
     private String chartName;
-    
-    public getChart(int chartNo, String chartName) {
+
+    public getChart(String chartNo, String chartName) {
         this.chartNo = chartNo;
         this.chartName = chartName;
     }
 
-    public int getChartNo() {
+    public String getChartNo() {
         return chartNo;
     }
 
     public String getChartName() {
         return chartName;
-    }
+    }   
+    
      
 }
 
