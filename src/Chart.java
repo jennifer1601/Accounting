@@ -82,24 +82,36 @@ public class Chart extends javax.swing.JPanel {
 
     public void getValue() {
         int row,col;
-        String condition, col_name = "";
         try {
             row = jTable1.getSelectedRow();
             col = jTable1.getSelectedColumn();
-            condition = (String)jTable1.getModel().getValueAt(row, col);
+            new Update().condition = (String)jTable1.getModel().getValueAt(row, col);
             switch(col){
                 case 0 :
-                    col_name = "chart_no";
+                    new Update().col_name = "chart_no";
                     break;
                 case 1:
-                    col_name = "chart_name";
+                    new Update().col_name = "chart_name";
                     break;
             }
-            System.out.println(condition);
-            System.out.println(col_name);
             
         } catch (Exception e) {
             System.out.println(e);
+        }
+    }
+    
+    public void DeleteStatement() throws SQLException {
+        
+        String code = (String) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0);
+        System.out.println(code);
+        Connection conn = getConnection();
+        Statement st = null;
+        st = conn.createStatement();
+        String query = "DELETE FROM chart WHERE chart_no = '" + code + "'";
+        try {
+            st.executeUpdate(query);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -260,15 +272,25 @@ public class Chart extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            DeleteStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(Chart.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Show_In_JTable();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-//        getValue();     
+  
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//        new UpdatePopUp().setVisible(true);
+        try {
+            new updateChart().loadcombo();
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        new updateChart().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

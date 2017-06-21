@@ -50,10 +50,24 @@ public class Vendor extends javax.swing.JPanel {
         }
     }
 
+    public void DeleteStatement() throws SQLException {
+        String code = (String) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0);
+        System.out.println(code);
+        Connection conn = getConnection();
+        Statement st = null;
+        st = conn.createStatement();
+        String query = "DELETE FROM vendor WHERE vendor_id = '" + code + "'";
+        try {
+            st.executeUpdate(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public ArrayList<getVendor> getVendorList() {
         ArrayList<getVendor> venList = new ArrayList<getVendor>();
         Connection connection = getConnection();
-        String query = "SELECT * FROM vendor";
+        String query = "SELECT * FROM vendor Order by Vendor_id";
         Statement st;
         ResultSet rs;
         try {
@@ -106,6 +120,7 @@ public class Vendor extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         jLabel3.setText("Name :");
 
@@ -140,7 +155,12 @@ public class Vendor extends javax.swing.JPanel {
 
         jLabel5.setText("Address :");
 
-        jButton1.setText("Refresh");
+        jButton1.setText("Delete");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Add");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -153,6 +173,13 @@ public class Vendor extends javax.swing.JPanel {
         jLabel1.setText("Add Vendor");
 
         jLabel2.setText("Vendor ID :");
+
+        jButton3.setText("Update");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -196,6 +223,8 @@ public class Vendor extends javax.swing.JPanel {
                 .addGap(42, 42, 42)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -211,7 +240,9 @@ public class Vendor extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton3)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -247,12 +278,32 @@ public class Vendor extends javax.swing.JPanel {
         } catch (SQLException ex) {
             Logger.getLogger(Vendor.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Show_In_JTable();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            DeleteStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vendor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Show_In_JTable();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            new updateVendor().loadcombo();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vendor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        new updateVendor().setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
