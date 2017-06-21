@@ -145,7 +145,7 @@ public class Chart extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Refresh");
+        jButton1.setText("Delete");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -256,6 +256,7 @@ public class Chart extends javax.swing.JPanel {
         } catch (SQLException ex) {
             Logger.getLogger(Chart.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Show_In_JTable();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

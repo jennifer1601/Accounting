@@ -211,6 +211,7 @@ public class Journal extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         j--;
         removeSelectedRows(jTable1);
+        ShowTotal();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -221,7 +222,7 @@ public class Journal extends javax.swing.JPanel {
         } catch (SQLException ex) {
             Logger.getLogger(Journal.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        ShowTotal();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -232,6 +233,7 @@ public class Journal extends javax.swing.JPanel {
         } catch (SQLException ex) {
             Logger.getLogger(Journal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        ShowTotal();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -242,6 +244,18 @@ public class Journal extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public void ShowTotal(){
+        total1 = 0;
+        total2 = 0;
+        for (int i = 0; i < jTable1.getModel().getRowCount(); i++) {
+            total1 += Integer.parseInt((String) jTable1.getValueAt(i, 2));
+            total2 += Integer.parseInt((String) jTable1.getValueAt(i, 3));
+        }
+        jTextField6.setText(Integer.toString(total1));
+        jTextField7.setText(Integer.toString(total2));
+        System.out.println(Integer.toString(jTable1.getModel().getRowCount()));
+    }
+    
     public void Show_In_JTable() throws SQLException {
         String chart_no = "";
         Connection conn = getConnection();
@@ -265,9 +279,6 @@ public class Journal extends javax.swing.JPanel {
         Object[] row = {chart_no, dc_name, debit, "0"};
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.addRow(row);
-
-        total1 += Integer.parseInt(debit);
-        jTextField6.setText(Integer.toString(total1));
 
     }
 
@@ -294,9 +305,6 @@ public class Journal extends javax.swing.JPanel {
         Object[] row = {chart_no, cc_name, "0", credit};
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.addRow(row);
-
-        total2 += Integer.parseInt(credit);
-        jTextField7.setText(Integer.toString(total2));
     }
 
     public Connection getConnection() {
