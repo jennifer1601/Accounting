@@ -30,11 +30,6 @@ public class updateChart extends javax.swing.JFrame {
 
     public updateChart() {
         initComponents();
-        try {
-            loadcombo();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void loadcombo() throws SQLException {
