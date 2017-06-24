@@ -30,6 +30,11 @@ public class updateVendor extends javax.swing.JFrame {
 
     public updateVendor() {
         initComponents();
+        try {
+            loadcombo();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadcombo() throws SQLException {

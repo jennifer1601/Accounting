@@ -100,7 +100,6 @@ public class Customer extends javax.swing.JPanel {
             model.addRow(row);
         }
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -300,12 +299,12 @@ public class Customer extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        new updateCust().setVisible(true);
         try {
             update.loadcombo();
         } catch (SQLException ex) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        new updateCust().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
 
