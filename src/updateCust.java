@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
-
 public class updateCust extends javax.swing.JFrame {
 
     static final String JDBC_DRIVER = "con.mysql.jdbc.Driver";
@@ -28,8 +27,13 @@ public class updateCust extends javax.swing.JFrame {
         }
     }
 
-    public updateCust() {
+    public updateCust(){
         initComponents();
+        try {
+            loadcombo();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadcombo() throws SQLException {
@@ -51,12 +55,12 @@ public class updateCust extends javax.swing.JFrame {
         st.close();
         conn.close();
     }
-    
+
     public void UpdateStatement() throws SQLException {
         String code, condition, col_name = "";
         Connection conn = getConnection();
         Statement st = null;
-        code = (String)jComboBox1.getSelectedItem();
+        code = (String) jComboBox1.getSelectedItem();
         col_name = (String) jComboBox2.getSelectedItem();
         condition = jTextField1.getText();
         st = conn.createStatement();
@@ -70,11 +74,7 @@ public class updateCust extends javax.swing.JFrame {
         }
     }
 
-    
-
-    
-      
-        @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -182,7 +182,7 @@ public class updateCust extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-     
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             UpdateStatement();
@@ -199,7 +199,7 @@ public class updateCust extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            loadcombo();    
+            loadcombo();
         } catch (SQLException ex) {
             Logger.getLogger(updateCust.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -226,5 +226,4 @@ public class updateCust extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
-    
 }
