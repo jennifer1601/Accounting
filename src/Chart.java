@@ -78,27 +78,7 @@ public class Chart extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void getValue() {
-        int row,col;
-        try {
-            row = jTable1.getSelectedRow();
-            col = jTable1.getSelectedColumn();
-            new Update().condition = (String)jTable1.getModel().getValueAt(row, col);
-            switch(col){
-                case 0 :
-                    new Update().col_name = "chart_no";
-                    break;
-                case 1:
-                    new Update().col_name = "chart_name";
-                    break;
-            }
-            
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+    }   
     
     public void DeleteStatement() throws SQLException {
         

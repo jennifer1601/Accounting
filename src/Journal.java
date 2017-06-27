@@ -146,8 +146,8 @@ public class Journal extends javax.swing.JPanel {
                                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                 .addGap(4, 4, 4)
                                                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -155,7 +155,8 @@ public class Journal extends javax.swing.JPanel {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(jButton3)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                         .addComponent(jButton2))
@@ -244,7 +245,7 @@ public class Journal extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public void ShowTotal(){
+    public void ShowTotal() {
         total1 = 0;
         total2 = 0;
         for (int i = 0; i < jTable1.getModel().getRowCount(); i++) {
@@ -255,7 +256,7 @@ public class Journal extends javax.swing.JPanel {
         jTextField7.setText(Integer.toString(total2));
         System.out.println(Integer.toString(jTable1.getModel().getRowCount()));
     }
-    
+
     public void Show_In_JTable() throws SQLException {
         String chart_no = "";
         Connection conn = getConnection();
@@ -376,6 +377,47 @@ public class Journal extends javax.swing.JPanel {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void AutoCode() throws SQLException {
+        Connection conn = getConnection();
+        String journal_code = "";
+        String jCode = "";
+        String query = "SELECT max(journal_code) as journal_code FROM journal";
+        int nextC = 0;
+        Statement st = null;
+        ResultSet rs = null;
+        boolean isNull = false;
+        try {
+            st = conn.createStatement();
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                journal_code = rs.getString("journal_code");
+            }
+            try {
+                nextC = Integer.parseInt(journal_code.substring(1)) + 1;
+                System.out.println(nextC);
+                jCode = Integer.toString(nextC);
+                System.out.println("J0" + jCode);
+            } catch (NullPointerException e) {
+                isNull = true;
+            }
+            if (isNull == true) {
+                jTextField1.setText("J01");
+                isNull = false;
+            }
+            else if (nextC < 10 ) {
+                jTextField1.setText("J0" + jCode);
+            } else {
+                jTextField1.setText("J" + jCode);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        rs.close();
+        st.close();
+        conn.close();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

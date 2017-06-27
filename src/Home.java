@@ -172,6 +172,7 @@ public class Home extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             J.loadcombo();
+            J.AutoCode();
         } catch (SQLException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -200,6 +201,7 @@ public class Home extends javax.swing.JFrame {
             try {
                 P.loadcombo();
                 Pbool = false;
+                P.AutoCode();
             } catch (SQLException ex) {
                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
             }
