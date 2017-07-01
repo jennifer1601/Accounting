@@ -4,10 +4,10 @@ public class getJournal {
     private String chart_name;
     private int journal_debit;
     private int journal_credit;
-    private int journal_desc;
+    private String journal_desc;
     private String journal_date;
 
-    public getJournal(String journal_code, String chart_no, String chart_name, int journal_debit, int journal_credit, int journal_desc, String journal_date) {
+    public getJournal(String journal_code, String chart_no, String chart_name, int journal_debit, int journal_credit, String journal_desc, String journal_date) {
         this.journal_code = journal_code;
         this.chart_no = chart_no;
         this.chart_name = chart_name;
@@ -37,14 +37,12 @@ public class getJournal {
         return journal_credit;
     }
 
-    public int getJournal_desc() {
+    public String getJournal_desc() {
         return journal_desc;
     }
 
     public String getJournal_date() {
         return journal_date;
     }
-    
-    
-    
+
 }
