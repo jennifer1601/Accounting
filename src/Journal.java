@@ -396,9 +396,7 @@ public class Journal extends javax.swing.JPanel {
             }
             try {
                 nextC = Integer.parseInt(journal_code.substring(1)) + 1;
-                System.out.println(nextC);
                 jCode = Integer.toString(nextC);
-                System.out.println("J0" + jCode);
             } catch (NullPointerException e) {
                 isNull = true;
             }

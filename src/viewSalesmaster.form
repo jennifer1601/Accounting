@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
   </Properties>
@@ -73,7 +73,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="36" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Purchase"/>
+        <Property name="text" type="java.lang.String" value="Sales"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -115,10 +115,10 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="5" rowCount="0">
-                <Column editable="true" title="Purchase No" type="java.lang.String"/>
+                <Column editable="true" title="Sales No" type="java.lang.String"/>
                 <Column editable="true" title="Date" type="java.lang.String"/>
-                <Column editable="true" title="Vendor Code" type="java.lang.String"/>
-                <Column editable="true" title="Vendor Name" type="java.lang.String"/>
+                <Column editable="true" title="Cust Code" type="java.lang.String"/>
+                <Column editable="true" title="Cust Name" type="java.lang.String"/>
                 <Column editable="true" title="Total" type="java.lang.Integer"/>
               </Table>
             </Property>

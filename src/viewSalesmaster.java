@@ -1,11 +1,9 @@
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
-public class viewPurchase extends javax.swing.JFrame {
+public class viewSalesmaster extends javax.swing.JFrame {
 
     static final String JDBC_DRIVER = "con.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/abc";
@@ -25,15 +23,15 @@ public class viewPurchase extends javax.swing.JFrame {
         }
     }
 
-    public ArrayList<getPurchase> getPurchaseList() {
+    public ArrayList<getSalesmaster> getSalesmasterList() {
         String query = "";
-        ArrayList<getPurchase> purchaseList = new ArrayList<getPurchase>();
+        ArrayList<getSalesmaster> salesList = new ArrayList<getSalesmaster>();
         Connection connection = getConnection();
         if (search == false) {
-            query = "SELECT * FROM Purchase Order by purchase_no";
+            query = "SELECT * FROM Salesmaster Order by sales_no";
         }
         if (search == true) {
-            query = "SELECT * FROM Purchase WHERE purchase_" + (String) jComboBox1.getSelectedItem() + " = '" + jTextField1.getText() + "'";
+            query = "SELECT * FROM Salesmaster WHERE sales_" + (String) jComboBox1.getSelectedItem() + " = '" + jTextField1.getText() + "'";
 
         }
         Statement st;
@@ -42,50 +40,50 @@ public class viewPurchase extends javax.swing.JFrame {
             st = connection.createStatement();
             rs = st.executeQuery(query);
             System.out.println(query);
-            getPurchase purchase;
+            getSalesmaster sales;
             while (rs.next()) {
-                purchase = new getPurchase(rs.getString("purchase_no"),
-                        rs.getString("purchase_date"),
-                        rs.getString("vendor_code"),
-                        rs.getInt("purchase_total"));
-                purchaseList.add(purchase);
+                sales = new getSalesmaster(rs.getString("sales_no"),
+                        rs.getString("sales_date"),
+                        rs.getString("cust_code"),
+                        rs.getInt("sales_total"));
+                salesList.add(sales);
 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return purchaseList;
+        return salesList;
     }
 
     public void Show_In_JTable() {
-        ArrayList<getPurchase> list = getPurchaseList();
+        ArrayList<getSalesmaster> list = getSalesmasterList();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         Object[] row = new Object[5];
         for (int i = 0; i < list.size(); i++) {
-            row[0] = list.get(i).getPurchase_no();
-            row[1] = list.get(i).getPurchase_date();
-            row[2] = list.get(i).getVendor_code();
-            row[4] = list.get(i).getPurchase_total();
+            row[0] = list.get(i).getSales_no();
+            row[1] = list.get(i).getSales_date();
+            row[2] = list.get(i).getCust_code();
+            row[4] = list.get(i).getSales_total();
             model.addRow(row);
         }
         Show_Name();
     }
 
     public void Show_Name() {
-        String vendor_name = "";
+        String cust_name = "";
         Connection connection = getConnection();
         for (int i = 0; i < jTable1.getRowCount(); i++) {
-            String query = "SELECT vendor_name FROM vendor WHERE vendor_id = '" + jTable1.getValueAt(i, 2) + "'";
+            String query = "SELECT cust_name FROM customer WHERE cust_code = '" + jTable1.getValueAt(i, 2) + "'";
             Statement st;
             ResultSet rs;
             try {
                 st = connection.createStatement();
                 rs = st.executeQuery(query);
                 while (rs.next()) {
-                    vendor_name = rs.getString("vendor_name");
+                    cust_name = rs.getString("cust_name");
                 }
-                jTable1.setValueAt(vendor_name, i, 3);
+                jTable1.setValueAt(cust_name, i, 3);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -93,7 +91,7 @@ public class viewPurchase extends javax.swing.JFrame {
         }
     }
 
-    public viewPurchase() {
+    public viewSalesmaster() {
         initComponents();
         Show_In_JTable();
     }
@@ -113,7 +111,7 @@ public class viewPurchase extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel1.setText("Purchase");
+        jLabel1.setText("Sales");
 
         jLabel2.setText("Search by :");
 
@@ -131,7 +129,7 @@ public class viewPurchase extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Purchase No", "Date", "Vendor Code", "Vendor Name", "Total"
+                "Sales No", "Date", "Cust Code", "Cust Name", "Total"
             }
         ) {
             Class[] types = new Class [] {
@@ -193,7 +191,7 @@ public class viewPurchase extends javax.swing.JFrame {
             model.removeRow(0);
         }
         search = true;
-        getPurchaseList();
+        getSalesmasterList();
         Show_In_JTable();
         search = false;
     }//GEN-LAST:event_jButton1ActionPerformed

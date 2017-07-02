@@ -1,4 +1,6 @@
+
 public class getJournal {
+
     private String journal_code;
     private String chart_no;
     private String chart_name;
@@ -11,6 +13,14 @@ public class getJournal {
         this.journal_code = journal_code;
         this.chart_no = chart_no;
         this.chart_name = chart_name;
+        this.journal_debit = journal_debit;
+        this.journal_credit = journal_credit;
+        this.journal_desc = journal_desc;
+        this.journal_date = journal_date;
+    }
+
+    public getJournal(String journal_date, String journal_code, String journal_desc, int journal_debit, int journal_credit) {
+        this.journal_code = journal_code;
         this.journal_debit = journal_debit;
         this.journal_credit = journal_credit;
         this.journal_desc = journal_desc;

@@ -269,9 +269,7 @@ public class Sales extends javax.swing.JPanel {
             }
             try {
                 nextC = Integer.parseInt(journal_code.substring(1)) + 1;
-                System.out.println(nextC);
                 jCode = Integer.toString(nextC);
-                System.out.println("J0" + jCode);
             } catch (NullPointerException e) {
                 isNull = true;
             }
@@ -774,6 +772,7 @@ public class Sales extends javax.swing.JPanel {
             dm.removeRow(0);
         }
         Show_Journal();
+        jTextField12.setText("Sales " + jTextField4.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
