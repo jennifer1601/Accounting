@@ -87,7 +87,7 @@ public class viewJournal extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         System.out.println(model.getRowCount());
         try {
-            for (int i = 0; i <= model.getRowCount() - 1; i++) {
+            for (int i = 0; i < model.getRowCount(); i++) {
                 for (int j = 1; j < 6; j++) {
                     String a = (String) model.getValueAt(i, 0);
                     String a1 = (String) model.getValueAt(i + j, 0);

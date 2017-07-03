@@ -4,15 +4,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author User
- */
 public class Home extends javax.swing.JFrame {
 
     Purchase P = new Purchase();
@@ -22,6 +13,7 @@ public class Home extends javax.swing.JFrame {
     Vendor V = new Vendor();
     Inventory I = new Inventory();
     Chart H = new Chart();
+    Giro G = new Giro();
 
     boolean Pbool = true;
     boolean Sbool = true;
@@ -42,6 +34,8 @@ public class Home extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -105,6 +99,15 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        jButton8.setText("Giro");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Return");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -116,6 +119,8 @@ public class Home extends javax.swing.JFrame {
             .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,7 +139,11 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jButton6)
                 .addGap(18, 18, 18)
                 .addComponent(jButton7)
-                .addContainerGap(360, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton8)
+                .addGap(18, 18, 18)
+                .addComponent(jButton9)
+                .addContainerGap(274, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
@@ -222,6 +231,7 @@ public class Home extends javax.swing.JFrame {
         V.setVisible(false);
         I.setVisible(false);
         H.setVisible(false);
+        G.setVisible(false);
         add(J, BorderLayout.CENTER);
         J.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -234,6 +244,7 @@ public class Home extends javax.swing.JFrame {
         V.setVisible(false);
         I.setVisible(false);
         H.setVisible(false);
+        G.setVisible(false);
         add(P, BorderLayout.CENTER);
         P.setVisible(true);
         P.clear();
@@ -261,6 +272,7 @@ public class Home extends javax.swing.JFrame {
         V.setVisible(false);
         I.setVisible(false);
         H.setVisible(false);
+        G.setVisible(false);
         add(S, BorderLayout.CENTER);
         S.setVisible(true);
         S.clear();
@@ -288,6 +300,7 @@ public class Home extends javax.swing.JFrame {
         V.setVisible(false);
         I.setVisible(false);
         H.setVisible(false);
+        G.setVisible(false);
         add(C, BorderLayout.CENTER);
         C.setVisible(true);
         C.Show_In_JTable();
@@ -301,6 +314,7 @@ public class Home extends javax.swing.JFrame {
         C.setVisible(false);
         I.setVisible(false);
         H.setVisible(false);
+        G.setVisible(false);
         add(V, BorderLayout.CENTER);
         V.setVisible(true);
         V.Show_In_JTable();
@@ -314,6 +328,7 @@ public class Home extends javax.swing.JFrame {
         C.setVisible(false);
         V.setVisible(false);
         H.setVisible(false);
+        G.setVisible(false);
         add(I, BorderLayout.CENTER);
         I.setVisible(true);
         I.Show_In_JTable();
@@ -327,6 +342,7 @@ public class Home extends javax.swing.JFrame {
         C.setVisible(false);
         I.setVisible(false);
         V.setVisible(false);
+        G.setVisible(false);
         add(H, BorderLayout.CENTER);
         H.setVisible(true);
         H.Show_In_JTable();
@@ -348,6 +364,20 @@ public class Home extends javax.swing.JFrame {
         new viewGL().setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        jPanel3.setVisible(false);
+        P.setVisible(false);
+        J.setVisible(false);
+        S.setVisible(false);
+        C.setVisible(false);
+        I.setVisible(false);
+        V.setVisible(false);
+        H.setVisible(false);
+        add(G, BorderLayout.CENTER);
+        G.setVisible(true);
+        G.Show_In_JTable();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -365,6 +395,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
