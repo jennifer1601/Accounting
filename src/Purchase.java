@@ -10,22 +10,22 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 public class Purchase extends javax.swing.JPanel {
-
+    
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/abc";
     static final String USER = "root";
     static final String PASS = "abc";
-
+    
     double total = 0;
     double debit = 0;
     double pure_total = 0;
     double tax = 0;
     double giro = 0;
-
+    
     public Purchase() {
         initComponents();
     }
-
+    
     public Connection getConnection() {
         Connection conn;
         try {
@@ -36,7 +36,7 @@ public class Purchase extends javax.swing.JPanel {
             return null;
         }
     }
-
+    
     public void loadcombo() throws SQLException {
         Connection conn = getConnection();
         String query = "SELECT product_name FROM inventory";
@@ -62,7 +62,7 @@ public class Purchase extends javax.swing.JPanel {
         st.close();
         conn.close();
     }
-
+    
     public void Show_In_JTable() throws SQLException {
         String product_code = "";
         Connection conn = getConnection();
@@ -89,7 +89,7 @@ public class Purchase extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.addRow(row);
     }
-
+    
     public void showTotal() {
         for (int i = 0; i < jTable1.getModel().getRowCount(); i++) {
             total += Integer.parseInt((String.valueOf(jTable1.getValueAt(i, 4))));
@@ -109,7 +109,7 @@ public class Purchase extends javax.swing.JPanel {
         }
         jTextField3.setText(Double.toString(total));
     }
-
+    
     public void Show_Journal() {
         String chart_no = "", vendor = "";
         DefaultTableModel model2 = (DefaultTableModel) jTable3.getModel();
@@ -134,7 +134,7 @@ public class Purchase extends javax.swing.JPanel {
             Object[] row2 = {"1050", "Tax Out", tax, "0"};
             model2.addRow(row2);
         }
-
+        
         String d_name, c_name = null;
         double credit = 0;
         double pCash, pCredit, pDisc, pGiro;
@@ -183,7 +183,7 @@ public class Purchase extends javax.swing.JPanel {
             }
         }
     }
-
+    
     public void AddStatement() throws SQLException {
         Connection conn = getConnection();
         Statement st = null;
@@ -209,7 +209,7 @@ public class Purchase extends javax.swing.JPanel {
             System.out.print(query);
             try {
                 st.executeUpdate(query);
-
+                
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -240,7 +240,8 @@ public class Purchase extends javax.swing.JPanel {
                     + "'" + p_code + "',"
                     + "'" + qty + "',"
                     + "'" + price + "',"
-                    + "'" + subtotal + "')";
+                     + "'" + subtotal + "',"
+                    + "'" + date + "')";
             System.out.println(query1);
             try {
                 st.executeUpdate(query1);
@@ -250,22 +251,25 @@ public class Purchase extends javax.swing.JPanel {
         }
 
 //        add giro
-        String Gdate = jTextField13.getText();
-        String Gcode = jTextField4.getText();
-        String query1 = "INSERT INTO giro VALUES("
-                + "'" + Gcode + "',"
-                + "'" + Gdate + "',"
-                + "'Purchase',"
-                + "'Unpaid',"  
-                + "'" + giro + "')";
-        System.out.println(query1);
-        try {
-            st.executeUpdate(query1);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (jCheckBox4.isSelected()) {
+            String Gdate = jTextField13.getText();
+            String Gcode = jTextField4.getText();
+            String query1 = "INSERT INTO giro VALUES("
+                    + "'" + Gcode + "',"
+                    + "'" + Gdate + "',"
+                    + "'Purchase',"
+                    + "'Unpaid',"
+                    + "'" + giro + "')";
+            System.out.println(query1);
+            try {
+                st.executeUpdate(query1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        
     }
-
+    
     public void AutoCode() throws SQLException {
         Connection conn = getConnection();
         String journal_code = "";
@@ -296,7 +300,7 @@ public class Purchase extends javax.swing.JPanel {
             } else {
                 jTextField11.setText("J" + jCode);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -329,7 +333,7 @@ public class Purchase extends javax.swing.JPanel {
         st.close();
         conn.close();
     }
-
+    
     public void UpdateInventory() throws SQLException {
         Connection conn = getConnection();
         Statement st = null;
@@ -387,7 +391,7 @@ public class Purchase extends javax.swing.JPanel {
             }
         }
     }
-
+    
     public void clear() {
         jTextField1.setText("");
         jTextField2.setText("");
@@ -411,7 +415,7 @@ public class Purchase extends javax.swing.JPanel {
             model1.removeRow(0);
         }
     }
-
+    
     public void chart_no() throws SQLException {
         String chart_no = "";
         Statement st = null;
@@ -430,13 +434,13 @@ public class Purchase extends javax.swing.JPanel {
                 e.printStackTrace();
             }
         }
-
+        
         rs.close();
         st.close();
         conn.close();
-
+        
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

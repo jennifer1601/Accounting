@@ -355,7 +355,7 @@ public class Journal extends javax.swing.JPanel {
         String date = jTextField2.getText();
         Connection conn = getConnection();
         Statement st = null;
-        for (int i = 0; i <= j; i++) {
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
             chart_no = (String) jTable1.getValueAt(i, 0);
             chart_name = (String) jTable1.getValueAt(i, 1);
             debit = (String) jTable1.getValueAt(i, 2);

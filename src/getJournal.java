@@ -27,6 +27,22 @@ public class getJournal {
         this.journal_date = journal_date;
     }
 
+    public getJournal(String chart_no, String chart_name, int journal_debit, int journal_credit) {
+        this.chart_no = chart_no;
+        this.chart_name = chart_name;
+        this.journal_debit = journal_debit;
+        this.journal_credit = journal_credit;
+    }
+
+    public getJournal(String chart_no, String chart_name) {
+        this.chart_no = chart_no;
+        this.chart_name = chart_name;
+    }
+
+    public getJournal(String chart_name) {
+        this.chart_name = chart_name;
+    }
+    
     public String getJournal_code() {
         return journal_code;
     }

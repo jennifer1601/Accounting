@@ -11,6 +11,10 @@ public class getInventory {
         this.productPrice = productPrice;
     }
 
+    public getInventory(String productCode) {
+        this.productCode = productCode;
+    }
+
     public String getProductCode() {
         return productCode;
     }

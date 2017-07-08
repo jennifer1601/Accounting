@@ -14,6 +14,7 @@ public class Home extends javax.swing.JFrame {
     Inventory I = new Inventory();
     Chart H = new Chart();
     Giro G = new Giro();
+    Return R = new Return();
 
     boolean Pbool = true;
     boolean Sbool = true;
@@ -47,6 +48,8 @@ public class Home extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,6 +110,11 @@ public class Home extends javax.swing.JFrame {
         });
 
         jButton9.setText("Return");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -206,7 +214,28 @@ public class Home extends javax.swing.JFrame {
         jMenu3.add(jMenuItem4);
 
         jMenuItem5.setText("Trial Balance");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem5);
+
+        jMenuItem6.setText("Inventory Value");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem6);
+
+        jMenuItem7.setText("Profit-Loss");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem7);
 
         jMenuBar1.add(jMenu3);
 
@@ -232,6 +261,7 @@ public class Home extends javax.swing.JFrame {
         I.setVisible(false);
         H.setVisible(false);
         G.setVisible(false);
+        R.setVisible(false);
         add(J, BorderLayout.CENTER);
         J.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -245,6 +275,7 @@ public class Home extends javax.swing.JFrame {
         I.setVisible(false);
         H.setVisible(false);
         G.setVisible(false);
+        R.setVisible(false);
         add(P, BorderLayout.CENTER);
         P.setVisible(true);
         P.clear();
@@ -273,6 +304,7 @@ public class Home extends javax.swing.JFrame {
         I.setVisible(false);
         H.setVisible(false);
         G.setVisible(false);
+        R.setVisible(false);
         add(S, BorderLayout.CENTER);
         S.setVisible(true);
         S.clear();
@@ -301,6 +333,7 @@ public class Home extends javax.swing.JFrame {
         I.setVisible(false);
         H.setVisible(false);
         G.setVisible(false);
+        R.setVisible(false);
         add(C, BorderLayout.CENTER);
         C.setVisible(true);
         C.Show_In_JTable();
@@ -315,6 +348,7 @@ public class Home extends javax.swing.JFrame {
         I.setVisible(false);
         H.setVisible(false);
         G.setVisible(false);
+        R.setVisible(false);
         add(V, BorderLayout.CENTER);
         V.setVisible(true);
         V.Show_In_JTable();
@@ -329,6 +363,7 @@ public class Home extends javax.swing.JFrame {
         V.setVisible(false);
         H.setVisible(false);
         G.setVisible(false);
+        R.setVisible(false);
         add(I, BorderLayout.CENTER);
         I.setVisible(true);
         I.Show_In_JTable();
@@ -343,6 +378,7 @@ public class Home extends javax.swing.JFrame {
         I.setVisible(false);
         V.setVisible(false);
         G.setVisible(false);
+        R.setVisible(false);
         add(H, BorderLayout.CENTER);
         H.setVisible(true);
         H.Show_In_JTable();
@@ -373,10 +409,44 @@ public class Home extends javax.swing.JFrame {
         I.setVisible(false);
         V.setVisible(false);
         H.setVisible(false);
+        R.setVisible(false);
         add(G, BorderLayout.CENTER);
         G.setVisible(true);
         G.Show_In_JTable();
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        jPanel3.setVisible(false);
+        P.setVisible(false);
+        J.setVisible(false);
+        S.setVisible(false);
+        C.setVisible(false);
+        I.setVisible(false);
+        V.setVisible(false);
+        H.setVisible(false);
+        G.setVisible(false);
+        add(R, BorderLayout.CENTER);
+        R.setVisible(true);
+        
+        try {
+            R.AutoCode();
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        new viewTrialBalance().setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        new viewInventoryValue().setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        new viewProfitLoss().setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     public static void main(String args[]) {
 
@@ -407,6 +477,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables

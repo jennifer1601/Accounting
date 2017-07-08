@@ -218,7 +218,7 @@ public class Sales extends javax.swing.JPanel {
             }
         }
 
-        //add purchasemaster table
+        //add salesmaster table
         String v_code = jTextField2.getText();
         String query = "INSERT INTO salesmaster VALUES("
                 + "'" + code + "',"
@@ -232,7 +232,7 @@ public class Sales extends javax.swing.JPanel {
             e.printStackTrace();
         }
 
-//        add purchasedetail table
+//        add salesdetail table
         for (int i = 0; i <= jTable1.getRowCount() - 1; i++) {
             String p_code = (String) jTable1.getValueAt(i, 0);
             Object qty = jTable1.getValueAt(i, 2);
@@ -243,7 +243,8 @@ public class Sales extends javax.swing.JPanel {
                     + "'" + p_code + "',"
                     + "'" + qty + "',"
                     + "'" + price + "',"
-                    + "'" + subtotal + "')";
+                    + "'" + subtotal + "',"
+                    + "'" + date + "')";
             System.out.println(query1);
             try {
                 st.executeUpdate(query1);
@@ -251,22 +252,25 @@ public class Sales extends javax.swing.JPanel {
                 e.printStackTrace();
             }
         }
-
-        //        add giro
-        String Gdate = jTextField13.getText();
-        String Gcode = jTextField4.getText();
-        String query1 = "INSERT INTO giro VALUES("
-                + "'" + Gcode + "',"
-                + "'" + Gdate + "',"
-                + "'Sales',"
-                + "'Unpaid',"  
-                + "'" + giro + "')";
-        System.out.println(query1);
-        try {
-            st.executeUpdate(query1);
-        } catch (Exception e) {
-            e.printStackTrace();
+        
+        if (jCheckBox4.isSelected()) {
+            //        add giro
+            String Gdate = jTextField13.getText();
+            String Gcode = jTextField4.getText();
+            String query1 = "INSERT INTO giro VALUES("
+                    + "'" + Gcode + "',"
+                    + "'" + Gdate + "',"
+                    + "'Sales',"
+                    + "'Unpaid',"
+                    + "'" + giro + "')";
+            System.out.println(query1);
+            try {
+                st.executeUpdate(query1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        
     }
 
     public void AutoCode() throws SQLException {
