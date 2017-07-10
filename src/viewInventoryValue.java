@@ -58,7 +58,7 @@ public class viewInventoryValue extends javax.swing.JFrame {
             row[0] = list.get(i).getProductCode();
             row[1] = list.get(i).getProductName();
             row[8] = list.get(i).getProductQty();
-            row[2] = list.get(i).getProductPrice();
+//            row[2] = list.get(i).getProductPrice();
             model.addRow(row);
         }
     }
@@ -184,6 +184,7 @@ public class viewInventoryValue extends javax.swing.JFrame {
     public void Show_Price() {
         double avg = 0;
         int pricetotal = 0;
+        int qtytotal = 0;
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             String product = (String) jTable1.getValueAt(i, 0);
             System.out.println(product);
@@ -191,7 +192,8 @@ public class viewInventoryValue extends javax.swing.JFrame {
                 String p = (String) jTable2.getValueAt(j, 1);
                 if (p.equals(product)) {
                     pricetotal += (int) jTable2.getValueAt(j, 4);
-                    jTable1.setValueAt(pricetotal, i, 2);
+                    qtytotal += (int) jTable2.getValueAt(j, 2);
+                    jTable1.setValueAt(pricetotal / qtytotal, i, 2);
                 }
             }
 
@@ -326,12 +328,12 @@ public class viewInventoryValue extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Show_In_JTable();
         Show_In_JTable1();
+        Show_In_JTable();
+        Show_Price();
         try {
             Show_In_Out();
             Show_Opening();
-            Show_Price();
         } catch (SQLException ex) {
             Logger.getLogger(viewInventoryValue.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -29,7 +29,7 @@ public class viewProfitLoss extends javax.swing.JFrame {
         String query = "";
         ArrayList<getJournal> journalList = new ArrayList<getJournal>();
         Connection connection = getConnection();
-        query = "SELECT chart_name FROM journal WHERE chart_no > '4000' AND chart_no <'5000'";
+        query = "SELECT chart_name FROM journal WHERE chart_no > '4000' AND chart_no <'5000' GROUP BY chart_no";
         Statement st;
         ResultSet rs;
         try {
@@ -62,7 +62,7 @@ public class viewProfitLoss extends javax.swing.JFrame {
         String query = "";
         ArrayList<getJournal> journalList = new ArrayList<getJournal>();
         Connection connection = getConnection();
-        query = "SELECT chart_name FROM journal WHERE chart_no >= '6000' AND chart_no <'7000'";
+        query = "SELECT chart_name FROM journal WHERE chart_no >= '6000' AND chart_no <'7000' GROUP BY chart_no";
         Statement st;
         ResultSet rs;
         try {
@@ -101,7 +101,6 @@ public class viewProfitLoss extends javax.swing.JFrame {
             String query = "SELECT sum(journal_debit) as journal_debit FROM journal where chart_name = '" + (String) jTable1.getValueAt(i, 0) + "' AND MONTH(journal_date) >= '" + jTextField2.getText() + "' AND MONTH(journal_date) <= '" + jTextField5.getText() + "'";
             try {
                 st = conn.createStatement();
-                System.out.println(query);
                 rs = st.executeQuery(query);
                 while (rs.next()) {
                     debit = rs.getInt("journal_debit");
@@ -112,7 +111,6 @@ public class viewProfitLoss extends javax.swing.JFrame {
             String query1 = "SELECT sum(journal_credit) as journal_credit FROM journal where chart_name = '" + (String) jTable1.getValueAt(i, 0) + "' AND MONTH(journal_date) >= '" + jTextField2.getText() + "' AND MONTH(journal_date) <= '" + jTextField5.getText() + "'";
             try {
                 st = conn.createStatement();
-                System.out.println(query1);
                 rs = st.executeQuery(query1);
                 while (rs.next()) {
                     credit = rs.getInt("journal_credit");
@@ -124,13 +122,38 @@ public class viewProfitLoss extends javax.swing.JFrame {
             balance = -1 * balance;
             jTable1.setValueAt(balance, i, 1);
         }
+        for (int i = 1; i < jTable2.getRowCount(); i++) {
+            int debit = 0;
+            int credit = 0;
+            String query = "SELECT sum(journal_debit) as journal_debit FROM journal where chart_name = '" + (String) jTable2.getValueAt(i, 0) + "' AND MONTH(journal_date) >= '" + jTextField2.getText() + "' AND MONTH(journal_date) <= '" + jTextField5.getText() + "'";
+            try {
+                st = conn.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    debit = rs.getInt("journal_debit");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String query1 = "SELECT sum(journal_credit) as journal_credit FROM journal where chart_name = '" + (String) jTable2.getValueAt(i, 0) + "' AND MONTH(journal_date) >= '" + jTextField2.getText() + "' AND MONTH(journal_date) <= '" + jTextField5.getText() + "'";
+            try {
+                st = conn.createStatement();
+                rs = st.executeQuery(query1);
+                while (rs.next()) {
+                    credit = rs.getInt("journal_credit");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            int balance = debit - credit;
+            jTable2.setValueAt(balance, i, 1);
+        }
         for (int i = 0; i < jTable3.getRowCount(); i++) {
             int debit = 0;
             int credit = 0;
             String query = "SELECT sum(journal_debit) as journal_debit FROM journal where chart_name = '" + (String) jTable3.getValueAt(i, 0) + "' AND MONTH(journal_date) >= '" + jTextField2.getText() + "' AND MONTH(journal_date) <= '" + jTextField5.getText() + "'";
             try {
                 st = conn.createStatement();
-                System.out.println(query);
                 rs = st.executeQuery(query);
                 while (rs.next()) {
                     debit = rs.getInt("journal_debit");
@@ -141,7 +164,6 @@ public class viewProfitLoss extends javax.swing.JFrame {
             String query1 = "SELECT sum(journal_credit) as journal_credit FROM journal where chart_name = '" + (String) jTable3.getValueAt(i, 0) + "' AND MONTH(journal_date) >= '" + jTextField2.getText() + "' AND MONTH(journal_date) <= '" + jTextField5.getText() + "'";
             try {
                 st = conn.createStatement();
-                System.out.println(query1);
                 rs = st.executeQuery(query1);
                 while (rs.next()) {
                     credit = rs.getInt("journal_credit");
@@ -176,49 +198,216 @@ public class viewProfitLoss extends javax.swing.JFrame {
 
     public void Show_BeginningInventory() {
         ArrayList<getInventory> list = getInventoryList();
-        int debit = 0;
-        int credit = 0;
+        int in = 0;
+        int out = 0;
+        int price = 0;
+        int tot_in = 0;
+        int tot_out = 0;
+        int tot = 0;
+        int subtot = 0;
+        double avgtot = 0;
+        double avgprice = 0;
+        double avg = 0;
+        boolean empty = false;
         Statement st = null;
         ResultSet rs = null;
         Connection conn = getConnection();
+
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         for (int i = 0; i < list.size(); i++) {
-            String query = "SELECT sum(purchase_qty) as purchase_qty FROM purchasedetail where product_code = '" + list.get(i).getProductCode() + "' AND MONTH(purchase_date) < '" + jTextField2.getText() + "'";
+            String query = "SELECT purchase_qty FROM purchasedetail where product_code = '" + list.get(i).getProductCode() + "' AND MONTH(purchase_date) < '" + jTextField2.getText() + "'";
             try {
                 st = conn.createStatement();
                 rs = st.executeQuery(query);
                 while (rs.next()) {
-                    debit = rs.getInt("purchase_qty");
+                    in = rs.getInt("purchase_qty");
+                    tot_in += in;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String query1 = "SELECT sum(sales_qty) as sales_qty FROM salesdetail where product_code = '" + list.get(i).getProductCode() + "' AND MONTH(sales_date) < '" + jTextField2.getText() + "'";
+            String query1 = "SELECT sales_qty FROM salesdetail where product_code = '" + list.get(i).getProductCode() + "' AND MONTH(sales_date) < '" + jTextField2.getText() + "'";
             try {
                 st = conn.createStatement();
                 rs = st.executeQuery(query1);
                 while (rs.next()) {
-                    credit = rs.getInt("sales_qty");
+                    out = rs.getInt("sales_qty");
+                    tot_out += out;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            int begin = debit - credit;
 
-            jTable1.setValueAt(debit - credit, i, 3);
+            String query2 = "SELECT purchase_price FROM purchasedetail where product_code = '" + list.get(i).getProductCode() + "' AND MONTH(purchase_date) < '" + jTextField2.getText() + "'";
+            try {
+                st = conn.createStatement();
+                rs = st.executeQuery(query2);
+                while (rs.next()) {
+                    price = rs.getInt("purchase_price");
+                    tot = in * price;
+                    subtot += tot;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                int begin = tot_in - tot_out;
+                avgprice = subtot / tot_in;
+                System.out.println("avgprice" + avgprice);
+                avg = begin * avgprice;
+                System.out.println(avg);
+            } catch (ArithmeticException e) {
+                System.out.println("Zero");
+            }
+            avgtot += avg;
+            in = 0;
+            out = 0;
+            price = 0;
+            tot_in = 0;
+            tot_out = 0;
+            tot = 0;
+            avgprice = 0;
+            subtot = 0;
+            avg = 0;
         }
+        System.out.println(avgtot);
+        Object[] row = {"Beginning Inventory", Math.round(avgtot)};
+        model.addRow(row);
+
+    }
+
+    public void Show_EndingInventory() {
+        ArrayList<getInventory> list = getInventoryList();
+        int in = 0;
+        int out = 0;
+        int price = 0;
+        int tot_in = 0;
+        int tot_out = 0;
+        int tot = 0;
+        int subtot = 0;
+        double avgtot = 0;
+        double avgprice = 0;
+        double avg = 0;
+        boolean empty = false;
+        Statement st = null;
+        ResultSet rs = null;
+        Connection conn = getConnection();
+
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getProductCode());
+            String query = "SELECT purchase_qty FROM purchasedetail where product_code = '" + list.get(i).getProductCode() + "' AND MONTH(purchase_date) <= '" + jTextField5.getText() + "'";
+            try {
+                st = conn.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    in = rs.getInt("purchase_qty");
+                    tot_in += in;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String query1 = "SELECT sales_qty FROM salesdetail where product_code = '" + list.get(i).getProductCode() + "' AND MONTH(sales_date) <= '" + jTextField5.getText() + "'";
+            try {
+                st = conn.createStatement();
+                rs = st.executeQuery(query1);
+                while (rs.next()) {
+                    out = rs.getInt("sales_qty");
+                    tot_out += out;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String query2 = "SELECT purchase_price FROM purchasedetail where product_code = '" + list.get(i).getProductCode() + "' AND MONTH(purchase_date) <= '" + jTextField5.getText() + "'";
+            try {
+                st = conn.createStatement();
+                rs = st.executeQuery(query2);
+                while (rs.next()) {
+                    price = rs.getInt("purchase_price");
+                    tot = in * price;
+                    subtot += tot;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                int begin = tot_in - tot_out;
+                avgprice = subtot / tot_in;
+                System.out.println("avgprice" + avgprice);
+                avg = begin * avgprice;
+                System.out.println(avg);
+            } catch (ArithmeticException e) {
+                System.out.println("Zero");
+            }
+            avgtot += avg;
+            in = 0;
+            out = 0;
+            price = 0;
+            tot_in = 0;
+            tot_out = 0;
+            tot = 0;
+            avgprice = 0;
+            subtot = 0;
+            avg = 0;
+        }
+        System.out.println(avgtot);
+        Object[] row = {"Ending Inventory", Math.round(avgtot)};
+        model.addRow(row);
     }
 
     public void showTotal() {
-        
+        int total = 0;
+        int total1 = 0;
+        int total2 = 0;
         for (int i = 0; i < jTable1.getModel().getRowCount(); i++) {
-            int total = 0;
             total += Integer.parseInt((String.valueOf(jTable1.getValueAt(i, 1))));
             jTextField1.setText(Integer.toString(total));
         }
+        for (int i = 0; i < jTable2.getModel().getRowCount(); i++) {
+            String name = (String) jTable2.getValueAt(i, 0);
+            if (name.equals("Beginning Inventory") || name.equals("Purchasing")) {
+                total1 += Integer.parseInt((String.valueOf(jTable2.getValueAt(i, 1))));
+            } else {
+                total1 -= Integer.parseInt((String.valueOf(jTable2.getValueAt(i, 1))));
+            }
+            jTextField3.setText(Integer.toString(total1));
+        }
         for (int i = 0; i < jTable3.getModel().getRowCount(); i++) {
-            int total2 = 0;
             total2 += Integer.parseInt((String.valueOf(jTable3.getValueAt(i, 1))));
             jTextField4.setText(Integer.toString(total2));
+        }
+    }
+
+    public ArrayList<getJournal> getJournalList2() {
+        String query = "";
+        ArrayList<getJournal> journalList = new ArrayList<getJournal>();
+        Connection connection = getConnection();
+        query = "SELECT chart_name FROM journal WHERE chart_no >= '5110' AND chart_no < '6000' GROUP BY chart_no";
+        Statement st;
+        ResultSet rs;
+        try {
+            st = connection.createStatement();
+            rs = st.executeQuery(query);
+            getJournal journal;
+            while (rs.next()) {
+                journal = new getJournal(
+                        rs.getString("chart_name"));
+                journalList.add(journal);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return journalList;
+    }
+
+    public void Show_In_JTable2() {
+        ArrayList<getJournal> list = getJournalList2();
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        Object[] row = new Object[2];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getChart_name();
+            model.addRow(row);
         }
     }
 
@@ -253,6 +442,8 @@ public class viewProfitLoss extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -314,11 +505,7 @@ public class viewProfitLoss extends javax.swing.JFrame {
 
         jLabel2.setText("Total Sales Revenue :");
 
-        jTextField1.setText("jTextField1");
-
         jLabel7.setText("Total COGS :");
-
-        jTextField3.setText("jTextField3");
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -343,10 +530,11 @@ public class viewProfitLoss extends javax.swing.JFrame {
 
         jLabel9.setText("Total Operational Expenditure :");
 
-        jTextField4.setText("jTextField4");
-
         jLabel10.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
         jLabel10.setText("Net Profit (Loss) :");
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
+        jLabel11.setText("Gross Profit (Loss) :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -355,50 +543,49 @@ public class viewProfitLoss extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))
-                            .addComponent(jLabel6)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel7)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel8)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel9)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField6)))
-                        .addGap(24, 24, 24))))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel11)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField7))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel9)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel10)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField6))))
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -432,35 +619,42 @@ public class viewProfitLoss extends javax.swing.JFrame {
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(22, 22, 22)
                 .addComponent(jLabel6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
+                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Show_In_JTable();
         Show_In_JTable1();
+        Show_BeginningInventory();
+        Show_In_JTable2();
         try {
             Show_Balance1();
+            Show_EndingInventory();
             showTotal();
         } catch (SQLException ex) {
             Logger.getLogger(viewProfitLoss.class.getName()).log(Level.SEVERE, null, ex);
         }
+        jTextField7.setText(Integer.toString(Integer.parseInt(jTextField1.getText()) - Integer.parseInt(jTextField3.getText())));
+        jTextField6.setText(Integer.toString(Integer.parseInt(jTextField7.getText()) - Integer.parseInt(jTextField4.getText())));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
@@ -475,6 +669,7 @@ public class viewProfitLoss extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -495,5 +690,6 @@ public class viewProfitLoss extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
 }

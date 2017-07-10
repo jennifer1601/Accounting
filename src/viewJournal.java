@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 public class viewJournal extends javax.swing.JFrame {
 
@@ -39,7 +40,7 @@ public class viewJournal extends javax.swing.JFrame {
         }
         if (search == true) {
             query = "SELECT * FROM journal WHERE journal_" + (String) jComboBox1.getSelectedItem() + " = '" + jTextField1.getText() + "'";
-            
+
         }
         Statement st;
         ResultSet rs;
@@ -68,6 +69,7 @@ public class viewJournal extends javax.swing.JFrame {
     public void Show_In_JTable() {
         ArrayList<getJournal> list = getJournalList();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        TableColumnModel col = jTable1.getColumnModel();
         model.setRowCount(0);
         Object[] row = new Object[7];
         for (int i = 0; i < list.size(); i++) {
