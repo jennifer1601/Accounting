@@ -356,6 +356,11 @@ public class Giro extends javax.swing.JPanel {
             Logger.getLogger(Giro.class.getName()).log(Level.SEVERE, null, ex);
         }
         Show_In_JTable();
+        try {
+            AutoCode();
+        } catch (SQLException ex) {
+            Logger.getLogger(Giro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

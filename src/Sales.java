@@ -790,6 +790,12 @@ public class Sales extends javax.swing.JPanel {
         } catch (SQLException ex) {
             Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
         }
+        clear();
+        try {
+            AutoCode();
+        } catch (SQLException ex) {
+            Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -804,18 +810,18 @@ public class Sales extends javax.swing.JPanel {
     private void jCheckBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox3ItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             jTextField9.setEnabled(true);
-            jTextField13.setEnabled(true);
         } else {
             jTextField9.setEnabled(false);
-            jTextField13.setEnabled(false);
         }
     }//GEN-LAST:event_jCheckBox3ItemStateChanged
 
     private void jCheckBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox4ItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             jTextField10.setEnabled(true);
+            jTextField13.setEnabled(true);
         } else {
             jTextField10.setEnabled(false);
+            jTextField13.setEnabled(false);
         }
     }//GEN-LAST:event_jCheckBox4ItemStateChanged
 

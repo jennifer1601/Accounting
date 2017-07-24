@@ -75,6 +75,7 @@ public class viewPurchase extends javax.swing.JFrame {
 
     public void Show_Name() {
         String vendor_name = "";
+        String product_name = "";
         Connection connection = getConnection();
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             String query = "SELECT vendor_name FROM vendor WHERE vendor_id = '" + jTable1.getValueAt(i, 2) + "'";
@@ -87,6 +88,22 @@ public class viewPurchase extends javax.swing.JFrame {
                     vendor_name = rs.getString("vendor_name");
                 }
                 jTable1.setValueAt(vendor_name, i, 3);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        for (int i = 0; i < jTable2.getRowCount(); i++) {
+            String query = "SELECT product_name FROM inventory WHERE product_code = '" + jTable2.getValueAt(i, 1) + "'";
+            Statement st;
+            ResultSet rs;
+            try {
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    product_name = rs.getString("product_name");
+                }
+                jTable2.setValueAt(product_name, i, 2);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -299,6 +316,7 @@ public class viewPurchase extends javax.swing.JFrame {
         search = true;
         getPurchaseList();
         Show_In_JTable();
+        Show_Name();
         search = false;
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -309,6 +327,7 @@ public class viewPurchase extends javax.swing.JFrame {
         }
         search1 = true;
         Show_In_JTable1();
+        Show_Name();
         search = false;
         jLabel4.setText((String) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0));
     }//GEN-LAST:event_jButton2ActionPerformed

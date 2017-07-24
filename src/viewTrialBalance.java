@@ -29,7 +29,7 @@ public class viewTrialBalance extends javax.swing.JFrame {
         String query = "";
         ArrayList<getJournal> journalList = new ArrayList<getJournal>();
         Connection connection = getConnection();
-        query = "SELECT chart_no, chart_name FROM journal GROUP BY chart_no";
+        query = "SELECT chart_no, chart_name FROM journal where month(journal_date) = '" + jTextField2.getText() + "' GROUP BY chart_no ";
         System.out.println(query);
         Statement st;
         ResultSet rs;

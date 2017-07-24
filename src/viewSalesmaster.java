@@ -73,6 +73,7 @@ public class viewSalesmaster extends javax.swing.JFrame {
 
     public void Show_Name() {
         String cust_name = "";
+        String product_name = "";
         Connection connection = getConnection();
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             String query = "SELECT cust_name FROM customer WHERE cust_code = '" + jTable1.getValueAt(i, 2) + "'";
@@ -85,6 +86,22 @@ public class viewSalesmaster extends javax.swing.JFrame {
                     cust_name = rs.getString("cust_name");
                 }
                 jTable1.setValueAt(cust_name, i, 3);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        for (int i = 0; i < jTable2.getRowCount(); i++) {
+            String query = "SELECT product_name FROM inventory WHERE product_code = '" + jTable2.getValueAt(i, 1) + "'";
+            Statement st;
+            ResultSet rs;
+            try {
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    product_name = rs.getString("product_name");
+                }
+                jTable2.setValueAt(product_name, i, 2);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -308,6 +325,7 @@ public class viewSalesmaster extends javax.swing.JFrame {
         search1 = true;
         Show_In_JTable1();
         search = false;
+        Show_Name();
         jLabel4.setText((String) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0));
     }//GEN-LAST:event_jButton2ActionPerformed
 
